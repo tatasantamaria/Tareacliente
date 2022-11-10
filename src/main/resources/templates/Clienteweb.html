@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8">
+<title>Crud_Clientes</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+	crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script type="text/javascript" src="../static/js/Validaciones.js>" th:src="@{/js/Validaciones.js}"></script>
+
+</head>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<h1>Clientes</h1>
+		</div>
+		<table class="table table-bordered table-dark">
+			<thead>
+				<tr class="bg-primary">
+					<th scope="col">Identificacion</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Apellido</th>
+					<th scope="col">Fecha</th>
+					<th scope="col">Ciudad</th>
+					<th scope="col">Mail</th>
+					<th scope="col">Telefono</th>
+					<th scope="col">Ocupacion</th>
+					<th scope="col">Estado</th>
+					<th scope="col">Configuracion</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="Cliente : ${Cliente}">
+					<th th:text="${Cliente.Iden}" scope="row">1</th>
+					<td th:text="${Cliente.nom}"></td>
+					<td th:text="${Cliente.ape}"></td>
+					<td th:text="${Cliente.Fecha}"></td>
+					<td th:text="${Cliente.ciu}"></td>
+					<td th:text="${Cliente.mail}"></td>
+					<td th:text="${Cliente.tel}"></td>
+					<td th:text="${Cliente.ocu}"></td>
+					<td th:text="${Cliente.est}"></td>
+					<td><a th:href="@{/getOne/(Num_doc=${Client.Num_doc})}" class="btn btn-warning" 
+					id="update">Editar</a> 
+					<a th:href="@{/ClientDelete/(Num_doc=${Client.Num_doc})}" class="btn btn-danger" 
+					id="updateButton">Borrar</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a><button
+				onclick="document.getElementById('id01').style.display='block'">Crear</button></a>
+
+		<div id="id01" class="modal">
+			<span onclick="document.getElementById('id01').style.display='none'"
+				class="close" title="Close Modal">&times;</span>
+
+			<div class="container">
+				<div class="row">
+					<div
+						class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+						<center>
+							<h1>Registro de Clientes</h1>
+						</center>
+
+						<div class="card-body">
+
+							<form th:action="@{/ClienteCrear}" method="post">
+
+								<div class="form-row row">
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Identificacion:</label><br> <input type="number"
+												placeholder="Ingrese numero de documento" name="Iden"
+												id="IdenVal"><br>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Nombre:</label><br> <input type="text"
+												placeholder="Ingrese Nombres" id="NombreVal" name="nom"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												required><br>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Apellidos:</label><br> <input type="text"
+												placeholder="Ingrese Apellidos" id="ApellidoVal"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												name="ape"><br>
+
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+                                      <label>Fecha</label><br>
+									 <input
+										type="date" placeholder="Ingrese fecha" name="Fecha" id="fechaVal"><br>
+                                      </div>
+                                      </div> 
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Ciudad:</label><br> 
+											
+		
+											
+												<input 
+												class="awesomplete"
+												type="text"
+												placeholder="Ingrese ciudad" id="CiudadVal"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												name="ciu"
+												data-list="BOGOTA,MEDELLIN,CALI,CUCUTA,ARMENIA,MANIZALES,CARTAGENA"
+												data-minChars="1"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Mail:</label><br> <input type="text"
+												placeholder="Ingrese Mail" id="MailVal" autocomplete="off"
+												name="mail"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Telefono:</label><br> <input type="number"
+												placeholder="Ingrese Telefono" id="TelVal" name="tel"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Ocupacion:</label><br> <select
+												class="form-select" name="ocu" required>
+												<option value="Empleado">Empleado</option>
+												<option value="Independiente">Independiente</option>
+												<option value="Pensionado">Pensionado</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Estado:</label><br> <select
+												class="form-select" name="est" required>
+												<option value="Activo">Activo</option>
+												<option value="Inactivo">Inactivo</option>
+											</select> <br>
+										</div>
+									</div>
+
+									<div class="container">
+
+										<input type="button" class="btn btn-outline-secondary"
+											onclick="ValidarCampos();" value="Guardar">
+
+										<button type="submit" id="GuardarOri"
+											class="btn btn-outline-secondary" style="display: none;">Guardar</button>
+
+										<button type="button"
+											onclick="document.getElementById('id01').style.display='none'"
+											class="cancelbtn">Cancelar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="editModal" class="modal">
+			<span onclick="document.getElementById('editModal').style.display='none'"
+				class="close" title="Close Modal">&times;</span>
+
+			<div class="container">
+				<div class="row">
+					<div
+						class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+						<center>
+							<h1>Editar Clientes</h1>
+						</center>
+
+						<div class="card-body">
+
+							<form th:action="@{/ClienteUpdate}" method="put">
+
+								<div class="form-row row">
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Identificacion:</label><br> <input type="number"
+												placeholder="Ingrese numero de documento" name="Iden"
+												id="IdenVal1"><br>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Nombre:</label><br> <input type="text"
+												placeholder="Ingrese Nombres" id="NombreVal1" name="nom"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												required><br>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Apellidos:</label><br> <input type="text"
+												placeholder="Ingrese Apellidos" id="ApellidoVal1"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												name="ape"><br>
+
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+                                      <label>Fecha</label><br>
+									 <input
+										type="date" placeholder="Ingrese fecha" name="Fecha" id="fechaVal1"><br>
+                                      </div>
+                                      </div> 
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Ciudad:</label><br> <input
+											    class="awesomplete"
+											    type="text"
+												placeholder="Ingrese ciudad" id="CiudadVal1"
+												onkeypress="return LETRAS(event);" autocomplete="off"
+												name="ciu"
+												data-list= "BOGOTA,MEDELLIN,CALI,CUCUTA,ARMENIA,MANIZALES,CARTAGENA"
+												data-minChars="1"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Mail:</label><br> <input type="text"
+												placeholder="Ingrese Mail" id="MailVal1" autocomplete="off"
+												name="mail"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Telefono:</label><br> <input type="number"
+												placeholder="Ingrese Telefono" id="TelVal1" name="tel"><br>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Ocupacion:</label><br> <select
+												class="form-select" name="ocu" id="ocuVal1" required>
+												<option value="Empleado">Empleado</option>
+												<option value="Independiente">Independiente</option>
+												<option value="Pensionado">Pensionado</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Estado:</label><br> <select
+												class="form-select" name="est" id="estVal1" required>
+												<option value="Activo">Activo</option>
+												<option value="Inactivo">Inactivo</option>
+											</select> <br>
+										</div>
+									</div>
+
+									<div class="container">
+
+										<input type="button" class="btn btn-outline-secondary"
+											onclick="ValidarCampos1();" value="Guardar">
+
+										<button type="submit" id="GuardarOri1"
+											class="btn btn-outline-secondary" style="display: none;">Guardar</button>
+
+										<button type="button"
+											onclick="document.getElementById('editModal').style.display='none'"
+											class="cancelbtn">Cancelar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="updateEstModal" class="modal">
+			<span onclick="document.getElementById('updateEstModal').style.display='none'"
+				class="close" title="Close Modal">&times;</span>
+
+			<div class="container">
+				<div class="row">
+					<div
+						class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+						<center>
+							<h1>Confirmar Accion</h1>
+						</center>
+
+						<div class="card-body">
+
+							<form th:action="@{/ClientDelete}" method="put">
+
+								<div class="form-group">
+									<label>¿Se eliminara este campo esta seguro?</label><br> <br>
+									 
+									<div class="container">
+										<a class="btn btn-outline-secondary" id="delRef">Si, Seguro</a>
+										<br> <br>
+
+										<button type="button"
+											onclick="document.getElementById('updateEstModal').style.display='none'"
+											class="cancelbtn">Cancelar</button>
+									</div>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+
+	</div>
+	<script>
+    var modal = document.getElementById('id01');    
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+    </script>
+<script type="text/javascript" src="https://parzibyte.github.io/ejemplos-javascript/autocompletado-awesomplete/awesomplete.min.js"></script>
+
+
+</body>
+
+</html>
